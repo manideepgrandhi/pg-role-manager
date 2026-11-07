@@ -91,6 +91,7 @@ New creator roles and new schemas require another run. Schema-wide defaults cann
 ## Security limits
 
 - Privileges are additive. `PUBLIC`, direct grants, other group memberships, ownership, and grants in other databases can provide additional access. Existing `PUBLIC` database `TEMPORARY` access is not removed, so reader members may still create and write temporary tables.
+- Schema-specific default privileges add to the creator's global defaults. This wrapper does not revoke global defaults or existing ACLs. A per-schema revoke cannot cancel a globally granted privilege.
 - PostgreSQL normally grants routine `EXECUTE` to `PUBLIC`. This wrapper neither adds routine execution nor removes existing public access. A readable view or executable function can expose data or have side effects beyond the profile's direct grants.
 - View access can use the view owner's underlying privileges and RLS context unless the view uses applicable invoker-security options. Review views, their functions, and their owners before including their schema.
 - RLS policies remain unchanged. The groups do not get `BYPASSRLS` or ownership. Grants alone do not guarantee that rows are visible or writable. Owners and superusers have different RLS behavior.
